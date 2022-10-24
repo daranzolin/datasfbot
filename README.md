@@ -1,0 +1,1 @@
+Source for the Twitter bot [@datasfbot.](https://twitter.com/datasfbot) It posts random geospatial resources from [DataSF](https://datasf.org/) using {rtweet}, RSocrata, and GitHub Actions. Built by [@daranzolin.](https://twitter.com/daranzolin)
