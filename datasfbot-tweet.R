@@ -21,7 +21,7 @@ get_data <- function(x) {
     for (i in seq_along(urls)) {
       out <- tryCatch(
         {
-          st_read(x[["downloadURL"]][i])
+          sf::st_read(x[["downloadURL"]][i])
         },
         error = function(e) return(NULL)
       )
@@ -40,12 +40,10 @@ get_data <- function(x) {
   return(out)
 }
 
-safe_get_data <- purrr::possibly(get_data, otherwise = NULL)
-
 available <- FALSE
 while (!available) {
   sample_ind <- sample(1:nrow(dsf_geospatial_resources), 1)
-  out <- safe_get_data(dsf_geospatial_resources$distribution[[sample_ind]])
+  out <- get_data(dsf_geospatial_resources$distribution[[sample_ind]])
   if (!is.null(out)) {
     available <- TRUE
     break

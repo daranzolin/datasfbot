@@ -1,5 +1,5 @@
 install.packages("rtweet", dependencies = TRUE)
+install.packages("sf")
 install.packages("ggplot2")
 install.packages("ggspatial")
 install.packages("RSocrata")
-install.packages("purrr")
