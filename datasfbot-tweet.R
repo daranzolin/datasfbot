@@ -79,5 +79,5 @@ rtweet::post_tweet(
   status         = status_msg,
   media          = temp_file,
   media_alt_text = alt_text,
-  token          = datasf_token
+  token          = datasfbot_token
 )
