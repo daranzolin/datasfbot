@@ -34,6 +34,7 @@ get_data <- function(x) {
         cond <- FALSE
         message("No data available")
         break
+        return(NULL)
       }
     }
   }
