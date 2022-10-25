@@ -1,7 +1,7 @@
 # Create Twitter token
 datasfbot_token <- rtweet::rtweet_bot(
-  api_key       = Sys.getenv("TWITTER_CONSUMER_API_KEY"),
-  api_secret    = Sys.getenv("TWITTER_CONSUMER_API_SECRET"),
+  api_key       = Sys.getenv("TWITTER_API_KEY"),
+  api_secret    = Sys.getenv("TWITTER_API_KEY_SECRET"),
   access_token  = Sys.getenv("TWITTER_ACCESS_TOKEN"),
   access_secret = Sys.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 )
@@ -60,10 +60,9 @@ m <- ggplot2::ggplot() +
   ggplot2::theme_void()
 
 # Download the image to a temporary location
-temp_file <- tempfile(fileext = ".jpeg")
-ggplot2::ggsave(temp_file, m)
 
-dsf_geospatial_resources[sample_ind,]
+file <- tempfile()
+ggplot2::ggsave(file, m, device = "png")
 
 # Build the status message (text and URL)
 status_msg <- unlist(dsf_geospatial_resources[sample_ind,1:4])[c(2:4, 1)]
@@ -80,3 +79,4 @@ rtweet::post_tweet(
   media_alt_text = alt_text,
   token          = datasfbot_token
 )
+unlink(file)
