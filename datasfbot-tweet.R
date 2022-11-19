@@ -54,10 +54,10 @@ while (!available) {
 # Create map
 fill <- sample(c("#FDBD01", "#FF00FF", "#50C878", "#b22222"), 1)
 m <- ggplot2::ggplot() +
-  snapbox::layer_mapbox(
-    area = sf::st_bbox(out),
-    mapbox_api_access_token = Sys.getenv("MAPBOX_ACCESS_TOKEN"),
-    map_style = Sys.getenv("MAPBOX_DARK_STYLE")
+  mapboxapi::layer_static_mapbox(
+    location = sf::st_bbox(out),
+    style_url = Sys.getenv("MAPBOX_DARK_STYLE"),
+    access_token = Sys.getenv("MAPBOX_ACCESS_TOKEN")
   ) +
   ggplot2::geom_sf(
     data = out, 
