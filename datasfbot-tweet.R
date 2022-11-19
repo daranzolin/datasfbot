@@ -69,7 +69,8 @@ m <- ggplot2::ggplot() +
   # ggplot2::labs(
   #   caption = "Map by @SFDataBot"
   # ) +
-  ggplot2::theme_void()
+  ggplot2::theme_void() +
+  ggplot2::theme(plot.margin = grid::unit(c(0, 0, 0, 0), "mm"))
 
 temp_file <- tempfile(fileext = ".jpeg")
 ggplot2::ggsave(temp_file, m)
