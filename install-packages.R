@@ -1,6 +1,6 @@
 install.packages("rtweet", dependencies = TRUE)
 install.packages("sf")
-install.packages("terra")
+install.packages("terra", repos = "https://rspatial.r-universe.dev")
 install.packages("RSocrata")
 install.packages("ggplot2")
 install.packages("mapboxapi")
