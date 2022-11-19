@@ -1,5 +1,6 @@
 install.packages("rtweet", dependencies = TRUE)
 install.packages("sf")
+install.packages("terra")
 install.packages("RSocrata")
 install.packages("ggplot2")
 install.packages("mapboxapi")
