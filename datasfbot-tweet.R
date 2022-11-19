@@ -1,7 +1,7 @@
 # Create Twitter token
 datasfbot_token <- rtweet::rtweet_bot(
-  api_key       = Sys.getenv("TWITTER_API_KEY"),
-  api_secret    = Sys.getenv("TWITTER_API_KEY_SECRET"),
+  api_key = Sys.getenv("TWITTER_CONSUMER_API_KEY"),
+  api_secret = Sys.getenv("TWITTER_CONSUMER_API_SECRET"),
   access_token  = Sys.getenv("TWITTER_ACCESS_TOKEN"),
   access_secret = Sys.getenv("TWITTER_ACCESS_TOKEN_SECRET")
 )
@@ -51,32 +51,42 @@ while (!available) {
   }
 }
 
+# Create map
+fill <- sample(c("#FDBD01", "#FF00FF", "#50C878", "#b22222"), 1)
 m <- ggplot2::ggplot() +
-  ggspatial::annotation_map_tile(type = "cartolight") +
-  ggplot2::geom_sf(data = out, alpha = 0.3) +
+  snapbox::layer_mapbox(
+    area = sf::st_bbox(out),
+    mapbox_api_access_token = Sys.getenv("MAPBOX_ACCESS_TOKEN"),
+    map_style = Sys.getenv("MAPBOX_DARK_STYLE")
+  ) +
+  ggplot2::geom_sf(
+    data = out, 
+    color = "#808080", 
+    alpha = 0.3, 
+    fill = fill, 
+    stroke = 0.1
+    ) +
   ggplot2::labs(
     caption = "Map by @SFDataBot"
   ) +
   ggplot2::theme_void()
 
-# Download the image to a temporary location
+temp_file <- tempfile(fileext = ".jpeg")
+ggplot2::ggsave(temp_file, m)
 
-file <- tempfile()
-ggplot2::ggsave(file, m, device = "png")
+# Create status message
+status_msg_bits <- unlist(dsf_geospatial_resources[sample_ind, c("title", "theme", "modified", "landingPage")])
+names(status_msg_bits)[4] <- "page"
+names(status_msg_bits) <- tools::toTitleCase(names(status_msg_bits))
+status_msg <- sapply(1:4, \(i) paste(names(status_msg_bits)[i], ":", status_msg_bits[i]))
+status_msg <- paste(status_msg, collapse = "\n")
 
-# Build the status message (text and URL)
-status_msg <- unlist(dsf_geospatial_resources[sample_ind,1:4])[c(2:4, 1)]
-status_msg <- paste(paste(tools::toTitleCase(names(status_msg)), ":", status_msg), collapse = "\n")
+alt_text <- "A random dataset from DataSF visualized on a map of San Francisco."
 
-alt_text <- paste(
-  "A random dataset from DataSF visualized on a map."
-)
-
-# Post the image to Twitter
+# Tweet
 rtweet::post_tweet(
   status         = status_msg,
-  media          = temp_file,
+  media          = "map.jpeg",
   media_alt_text = alt_text,
   token          = datasfbot_token
 )
-unlink(file)
