@@ -66,9 +66,9 @@ m <- ggplot2::ggplot() +
     fill = fill, 
     stroke = 0.1
     ) +
-  ggplot2::labs(
-    caption = "Map by @SFDataBot"
-  ) +
+  # ggplot2::labs(
+  #   caption = "Map by @SFDataBot"
+  # ) +
   ggplot2::theme_void()
 
 temp_file <- tempfile(fileext = ".jpeg")
