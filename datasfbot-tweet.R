@@ -86,7 +86,7 @@ alt_text <- "A random dataset from DataSF visualized on a map of San Francisco."
 # Tweet
 rtweet::post_tweet(
   status         = status_msg,
-  media          = "map.jpeg",
+  media          = temp_file,
   media_alt_text = alt_text,
   token          = datasfbot_token
 )
