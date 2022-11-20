@@ -2,7 +2,7 @@ name: datasfbot
 
 on:
   schedule:
-    - cron: '15 * * * *'  
+    - cron: '0 9 * * *'  
 
 jobs:
   datasfbot-post:
