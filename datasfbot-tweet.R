@@ -75,7 +75,7 @@ gt <- sf::st_geometry_type(out, FALSE)
 if (gt %in% c("POINT", "MULTIPOINT", "LINESTRING")) m <- m + geom_sf2(color = my_color)
 
 if (gt %in% c("POLYGON", "MULTIPOLYGON")) {
-  if (nrow(out) > 30) {
+  if (nrow(out) > 100) {
     m <- m + geom_sf2(fill = my_color, color = NA) 
   } else {
     m <- m + geom_sf2(fill = my_color, color = "#808080") 
