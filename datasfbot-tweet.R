@@ -52,25 +52,35 @@ while (!available) {
 }
 
 # Create map
-fill <- sample(c("#FDBD01", "#FF00FF", "#50C878", "#b22222"), 1)
+
 m <- ggplot2::ggplot() +
   mapboxapi::layer_static_mapbox(
     location = sf::st_bbox(out),
     style_url = Sys.getenv("MAPBOX_DARK_STYLE"),
     access_token = Sys.getenv("MAPBOX_ACCESS_TOKEN")
   ) +
-  ggplot2::geom_sf(
-    data = out, 
-    color = "#808080", 
-    alpha = 0.3, 
-    fill = fill, 
-    stroke = 0.1
-    ) +
-  # ggplot2::labs(
-  #   caption = "Map by @SFDataBot"
-  # ) +
   ggplot2::theme_void() +
   ggplot2::theme(plot.margin = grid::unit(c(0, 0, 0, 0), "mm"))
+
+geom_sf2 <- purrr::partial(
+  ggplot2::geom_sf,
+  data = out,
+  alpha = 0.6,
+)
+
+my_color <- sample(c("#FDBD01", "#FF00FF", "#50C878", "#b22222"), 1)
+
+gt <- sf::st_geometry_type(out, FALSE)
+
+if (gt %in% c("POINT", "MULTIPOINT", "LINESTRING")) m <- m + geom_sf2(color = my_color)
+
+if (gt %in% c("POLYGON", "MULTIPOLYGON")) {
+  if (nrow(out) > 30) {
+    m <- m + geom_sf2(fill = my_color, color = NA) 
+  } else {
+    m <- m + geom_sf2(fill = my_color, color = "#808080") 
+  }
+}
 
 temp_file <- tempfile(fileext = ".jpeg")
 ggplot2::ggsave(temp_file, m)
