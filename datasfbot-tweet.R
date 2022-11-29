@@ -72,7 +72,7 @@ my_color <- sample(c("#FDBD01", "#FF00FF", "#50C878", "#b22222"), 1)
 
 gt <- sf::st_geometry_type(out, FALSE)
 
-if (gt %in% c("POINT", "MULTIPOINT", "LINESTRING")) m <- m + geom_sf2(color = my_color)
+if (gt %in% c("POINT", "MULTIPOINT", "MULTILINESTRING", "LINESTRING")) m <- m + geom_sf2(color = my_color)
 
 if (gt %in% c("POLYGON", "MULTIPOLYGON")) {
   if (nrow(out) > 1000) {
